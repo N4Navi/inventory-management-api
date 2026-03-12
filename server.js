@@ -9,7 +9,7 @@ app.use(express.json());
 
 connectDB();
 
-app.use("/products", require("./routes/productRoutes"));
+app.use("/api/products", require("./routes/productRoutes"));
 
 const PORT = process.env.PORT || 5000;
 
