@@ -1,43 +1,18 @@
-const Product = require("../models/product");
+const express = require("express");
+const router = express.Router();
 
-exports.addProduct = async (req, res) => {
-  try {
-    const product = await Product.create(req.body);
-    res.status(201).json(product);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
+const {
+  addProduct,
+  getProducts,
+  updateProduct,
+  deleteProduct,
+  searchProduct
+} = require("../controllers/productController");
 
-exports.getProducts = async (req, res) => {
-  const products = await Product.find();
-  res.json(products);
-};
+router.post("/", addProduct);
+router.get("/", getProducts);   // THIS enables GET /api/products
+router.put("/:id", updateProduct);
+router.delete("/:id", deleteProduct);
+router.get("/search", searchProduct);
 
-exports.updateProduct = async (req, res) => {
-  const product = await Product.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    { new: true }
-  );
-
-  res.json(product);
-};
-
-exports.deleteProduct = async (req, res) => {
-  await Product.findByIdAndDelete(req.params.id);
-  res.json({ message: "Product deleted" });
-};
-
-exports.searchProduct = async (req, res) => {
-  const keyword = req.query.keyword;
-
-  const products = await Product.find({
-    $or: [
-      { productName: { $regex: keyword, $options: "i" } },
-      { category: { $regex: keyword, $options: "i" } }
-    ]
-  });
-
-  res.json(products);
-};
+module.exports = router;

@@ -5,14 +5,12 @@ const {
   addProduct,
   getProducts,
   updateProduct,
-  deleteProduct,
-  searchProduct
+  deleteProduct
 } = require("../controllers/productController");
 
 router.post("/", addProduct);
-router.get("/", getProducts);
+router.get("/", getProducts);      // <-- THIS enables GET /api/products
 router.put("/:id", updateProduct);
 router.delete("/:id", deleteProduct);
-router.get("/search", searchProduct);
 
 module.exports = router;

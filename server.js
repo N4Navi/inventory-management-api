@@ -2,14 +2,21 @@ const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 
+const productRoutes = require("./routes/productRoutes");
+
 dotenv.config();
 
 const app = express();
-app.use(express.json());
 
 connectDB();
 
-app.use("/api/products", require("./routes/productRoutes"));
+app.use(express.json());
+
+app.use("/api/products", productRoutes);
+
+app.get("/", (req, res) => {
+  res.send("Inventory API Running");
+});
 
 const PORT = process.env.PORT || 5000;
 
